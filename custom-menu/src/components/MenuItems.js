@@ -34,6 +34,7 @@ class MenuItems extends Component {
       veg: this.state.veg,
       id: Math.random()
     });
+    this.setState({ food: "", price: "", veg: false });
     event.preventDefault();
   };
 
@@ -49,7 +50,7 @@ class MenuItems extends Component {
           />
           <input
             placeholder={"add price"}
-            type={"text"}
+            type={"number"}
             value={this.state.price}
             onChange={this.handlePrice}
           />

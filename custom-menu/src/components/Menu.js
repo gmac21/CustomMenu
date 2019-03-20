@@ -5,7 +5,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      menu: []
+      menu: [],
+      show: "all"
     };
   }
 
@@ -21,8 +22,25 @@ class App extends Component {
     });
   };
 
+  changeMenu = param => {
+    this.setState({
+      show: param
+    });
+  };
+
   render() {
-    console.log(this.state.menu);
+    let newMenu = [];
+    if (this.state.show === "all") {
+      newMenu = this.state.menu;
+    } else if (this.state.show === "veg") {
+      newMenu = this.state.menu.filter(item => item.veg === true);
+    } else if (this.state.show === "nonVeg") {
+      newMenu = this.state.menu.filter(item => item.veg !== true);
+    } else if (this.state.show === "cheapest") {
+      newMenu = this.state.menu.sort((a, b) => a.price - b.price);
+    }
+    debugger;
+
     return (
       <div className="App">
         <div style={{ paddingBottom: "5px", paddingTop: "5px" }}>
@@ -37,8 +55,8 @@ class App extends Component {
             <div className="divElements"> food</div>{" "}
             <div className="divElements">price</div>
           </div>
-          {this.state.menu.map(item => (
-            <div style={{ marginLeft: "8%" }}>
+          {newMenu.map(item => (
+            <div style={{ marginLeft: "8%" }} key={item.id}>
               <div key={item.id} className="flexOutline">
                 <div className="divElements1"> {item.food} </div>
                 <div className="divElements1"> {item.price} </div>{" "}
@@ -52,6 +70,19 @@ class App extends Component {
               </div>
             </div>
           ))}
+        </div>
+        <div style={{ paddingTop: "15px" }}>
+          <button onClick={() => this.changeMenu("all")}> show all menu</button>
+          <button onClick={() => this.changeMenu("veg")}>
+            {" "}
+            show vegetarian menu
+          </button>
+          <button onClick={() => this.changeMenu("nonVeg")}>
+            show non vegetarian menu
+          </button>
+          <button onClick={() => this.changeMenu("cheapest")}>
+            show by cheapest
+          </button>
         </div>
       </div>
     );
